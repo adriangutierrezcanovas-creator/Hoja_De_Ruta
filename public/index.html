@@ -165,32 +165,36 @@ input, select { font-family:inherit; }
 .kv-list .kv-row .k { color:var(--t2); }
 
 /* ---------- COMER ---------- */
-.comer-form { padding:16px; display:flex; flex-direction:column; gap:12px; }
-.field label { font-size:11px; color:var(--t2); display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px; }
-.field-row { display:flex; gap:8px; }
+.comer-form { padding:20px; display:flex; flex-direction:column; gap:18px; max-width:720px; margin:0 auto; }
+.field label { font-size:13px; color:var(--t2); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:1px; }
+.field-row { display:flex; gap:12px; }
 .field { flex:1; }
 .field input, .field select {
-  width:100%; padding:10px 12px; background:var(--surf); border:1px solid var(--brd);
-  border-radius:8px; color:var(--text); font-size:14px;
+  width:100%; padding:14px 16px; background:var(--surf); border:1px solid var(--brd);
+  border-radius:10px; color:var(--text); font-size:17px;
 }
-.geoloc-row { display:flex; gap:8px; }
+.geoloc-row { display:flex; gap:10px; }
 .geoloc-row input { flex:1; }
-.budget-row { display:flex; gap:8px; }
-.budget-btn { flex:1; padding:10px; border-radius:8px; border:1px solid var(--brd); background:var(--surf); font-size:14px; text-align:center; }
+.geoloc-row .icon-btn, .restaurant-actions .icon-btn { width:48px; height:48px; flex-shrink:0; }
+.geoloc-row .icon-btn svg, .restaurant-actions .icon-btn svg { width:22px; height:22px; }
+.budget-row { display:flex; gap:10px; }
+.budget-btn { flex:1; padding:14px; border-radius:10px; border:1px solid var(--brd); background:var(--surf); font-size:17px; text-align:center; }
 .budget-btn.active { background:var(--rBg); border-color:var(--rBrd); color:var(--red); }
+.comer-form .btn-red { font-size:16px; padding:16px; }
 
+#comerResults { max-width:900px; margin:0 auto; }
 .restaurant-card {
   display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; border-bottom:1px solid var(--brd); gap:10px;
+  padding:22px 24px; border-bottom:1px solid var(--brd); gap:16px;
 }
-.restaurant-info .name { font-size:15px; }
-.restaurant-info .meta { font-size:12px; color:var(--t2); margin-top:2px; }
-.restaurant-actions { display:flex; align-items:center; gap:8px; }
-.fav-btn svg { width:20px; height:20px; stroke:var(--t2); fill:none; stroke-width:2; }
+.restaurant-info .name { font-size:20px; }
+.restaurant-info .meta { font-size:15px; color:var(--t2); margin-top:6px; line-height:1.5; }
+.restaurant-actions { display:flex; align-items:center; gap:10px; }
+.fav-btn svg { width:26px; height:26px; stroke:var(--t2); fill:none; stroke-width:2; }
 .fav-btn.active svg { stroke:var(--red); fill:var(--red); }
-#map { height:280px; margin:12px 16px 0; border-radius:10px; overflow:hidden; border:1px solid var(--brd); }
+#map { height:440px; margin:16px auto 0; max-width:900px; border-radius:10px; overflow:hidden; border:1px solid var(--brd); }
 
-.loading { padding:30px; text-align:center; color:var(--t2); font-size:13px; }
+.loading { padding:40px; text-align:center; color:var(--t2); font-size:15px; }
 </style>
 </head>
 <body>
@@ -818,6 +822,46 @@ function toggleTheme() {
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
   store.theme.set(next);
+}
+
+// =========================================================================
+// SEED: bolo de ejemplo para poder ver la pantalla de detalle sin importar
+// =========================================================================
+const DEMO_BOLO = {
+  id: 'demo-valdeorras',
+  band: 'Nunatak', format: 'Sala', venue: 'Auditorio Conde Fenosa',
+  venueAddr: 'Rúa Antonio Faílde, 32300 O Barco de Valdeorras, Ourense',
+  date: '2026-09-12', duration: '50 min', weather: 'Nuboso 18°C',
+  acceso: 'Carga por puerta trasera del auditorio, acceso directo desde el aparcamiento',
+  agenda: [
+    { hora: '17:00', label: 'Llegada al auditorio', type: 'travel', dur: '' },
+    { hora: '17:30', label: 'Descarga de material', type: 'load', dur: '30 min' },
+    { hora: '19:00', label: 'Prueba de sonido', type: 'work', dur: '60 min' },
+    { hora: '21:00', label: 'Cena del equipo', type: 'rest', dur: '45 min' },
+    { hora: '22:30', label: 'Concierto', type: 'show', dur: '50 min' },
+    { hora: '00:00', label: 'Fin de jornada', type: 'end', dur: '' },
+  ],
+  hotels: [{
+    nombre: 'Hotel Puerta de Valdeorras', addr: 'Av. de Galicia 20, 32300 O Barco de Valdeorras',
+    phone: '+34988320145', checkin: '15:00', checkout: '12:00',
+    rooms: '6 dobles', breakfast: 'Incluido 07:30-10:30', parking: 'Gratuito',
+    maps: 'https://maps.google.com/?q=Hotel+Puerta+de+Valdeorras',
+  }],
+  contactos: [
+    { role: 'Promotor', nombre: 'Xoán Rodríguez', telefono: '+34600111222' },
+    { role: 'Técnico de sala', nombre: 'Lucía Vázquez', telefono: '+34600222333' },
+  ],
+  vehiculo: {
+    tipo: 'Furgoneta 9 plazas', empresa: 'GalRent', telefono: '+34600333444',
+    pickup: '12/09 10:00 - Aeropuerto Vigo', devolucion: '14/09 12:00 - Aeropuerto Vigo',
+  },
+  tourParty: [
+    { key: 'Tour Manager', value: 'Marc Vidal' },
+    { key: 'FOH', value: 'Laia Soler' },
+  ],
+};
+if (!store.bolos.get().length) {
+  store.bolos.set([DEMO_BOLO]);
 }
 
 // =========================================================================
