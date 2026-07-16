@@ -1,8 +1,9 @@
-const CACHE_NAME = 'hdr-v2';
+const CACHE_NAME = 'hdr-v3';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
+  '/favicon.ico',
 ];
 const NAV_PATHS = ['/', '/index.html'];
 

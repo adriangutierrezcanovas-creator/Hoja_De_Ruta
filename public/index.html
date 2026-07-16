@@ -6,7 +6,9 @@
 <title>Hoja de Ruta</title>
 <meta name="theme-color" content="#0a0a0a">
 <link rel="manifest" href="/manifest.json">
-<link rel="icon" href="/icon-192.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,13 +47,23 @@ input, select { font-family:inherit; }
   position:sticky; top:0; z-index:10;
 }
 #topbar .left { display:flex; align-items:center; gap:10px; }
+#topbar .titles { display:flex; flex-direction:column; }
 #topbar h1 { font-size:22px; }
+#topbar h1 .hl { color:var(--red); }
+#topbar .subtitle { font-size:11px; color:var(--t2); letter-spacing:1px; text-transform:uppercase; margin-top:1px; display:none; }
+#topbar .subtitle.visible { display:block; }
 .icon-btn {
   width:36px; height:36px; display:flex; align-items:center; justify-content:center;
   border-radius:8px; border:1px solid var(--brd); color:var(--text);
 }
 .icon-btn:active { background:var(--card); }
 .icon-btn svg { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; }
+.theme-toggle {
+  display:flex; align-items:center; gap:6px; height:36px; padding:0 14px;
+  border-radius:20px; border:1px solid var(--brd); color:var(--text); font-size:13px;
+}
+.theme-toggle:active { background:var(--card); }
+.theme-toggle svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; }
 
 #app { flex:1; overflow-y:auto; padding-bottom:12px; }
 
@@ -111,56 +123,72 @@ input, select { font-family:inherit; }
 .import-error { font-size:13px; color:var(--red); }
 
 /* ---------- BOLO DETAIL ---------- */
-.hero { padding:20px; border-bottom:1px solid var(--brd); }
-.hero-top { display:flex; justify-content:space-between; align-items:flex-start; }
-.hero-venue { font-size:26px; color:var(--red); }
-.hero-right { text-align:right; }
-.hero-duration { font-size:26px; }
-.hero-date, .hero-weather { font-size:11px; color:var(--t2); margin-top:2px; }
-.hero-btns { display:flex; gap:10px; margin-top:14px; }
-.hero-btns a, .hero-btns button { flex:1; padding:10px; border-radius:8px; text-align:center; font-size:13px; }
+.hero { padding:26px 24px; border-bottom:1px solid var(--brd); }
+.hero-top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+.hero-venue { font-size:38px; line-height:1.05; color:var(--red); text-transform:uppercase; }
+.hero-right { text-align:right; flex-shrink:0; }
+.hero-duration { font-size:34px; }
+.hero-date, .hero-weather { font-size:14px; color:var(--t2); margin-top:4px; }
+.hero-btns { display:flex; gap:12px; margin-top:20px; }
+.hero-btns a, .hero-btns button { flex:1; padding:14px; border-radius:10px; text-align:center; font-size:15px; display:flex; align-items:center; justify-content:center; gap:8px; }
+.hero-btns svg { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; }
 .hero-btn-venue { background:var(--rBg); border:1px solid var(--rBrd); color:var(--red); }
-.hero-acceso { margin-top:14px; font-size:12px; color:var(--t2); display:flex; gap:6px; }
+.hero-acceso {
+  margin-top:20px; padding:14px 16px; background:var(--card); border:1px solid var(--brd); border-radius:10px;
+  font-size:14px; color:var(--t2); display:flex; gap:10px; line-height:1.5;
+}
+.hero-acceso b { color:var(--text); }
 
-.section { padding:16px 20px; border-bottom:1px solid var(--brd); }
-.section-head { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
-.section-head svg { width:14px; height:14px; stroke:var(--red); fill:none; stroke-width:2; }
-.section-head span { font-family:"Bebas Neue",sans-serif; font-size:14px; letter-spacing:2px; color:var(--red); }
+.section { padding:22px 24px; border-bottom:1px solid var(--brd); }
+.section-head { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.section-head svg { width:20px; height:20px; stroke:var(--red); fill:none; stroke-width:2; }
+.section-head span { font-family:"Bebas Neue",sans-serif; font-size:19px; letter-spacing:2px; color:var(--red); }
 .section-head .line { flex:1; height:1px; background:var(--brd); }
 
 /* agenda timeline */
-.timeline { position:relative; padding-left:20px; }
-.timeline::before { content:""; position:absolute; left:4px; top:4px; bottom:4px; width:1px; background:var(--brd); }
-.tl-item { position:relative; padding-bottom:18px; display:flex; gap:12px; }
+.timeline { position:relative; padding-left:26px; }
+.timeline::before { content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--brd); }
+.tl-item { position:relative; padding-bottom:24px; display:flex; gap:14px; align-items:baseline; }
 .tl-item:last-child { padding-bottom:0; }
-.tl-dot { position:absolute; left:-20px; top:4px; border-radius:50%; background:var(--t2); width:8px; height:8px; }
-.tl-item.type-load .tl-dot, .tl-item.type-work .tl-dot { background:var(--red); width:10px; height:10px; left:-21px; }
-.tl-item.type-show .tl-dot { background:var(--red); width:14px; height:14px; left:-23px; box-shadow:0 0 8px 2px rgba(196,26,26,.6); }
-.tl-hora { font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--t2); min-width:44px; }
-.tl-item.type-load .tl-hora, .tl-item.type-work .tl-hora { color:var(--red); }
-.tl-item.type-show .tl-hora { font-family:"Bebas Neue",sans-serif; font-size:16px; color:var(--red); }
-.tl-label { font-size:13px; color:var(--t2); }
+.tl-dot { position:absolute; left:-26px; top:5px; border-radius:50%; background:var(--t2); width:10px; height:10px; }
+.tl-item.type-load .tl-dot, .tl-item.type-work .tl-dot { background:var(--red); width:13px; height:13px; left:-27px; }
+.tl-item.type-show .tl-dot { background:var(--red); width:17px; height:17px; left:-29px; box-shadow:0 0 8px 2px rgba(196,26,26,.6); }
+.tl-hora { font-family:"JetBrains Mono",monospace; font-size:15px; color:var(--t2); min-width:56px; }
+.tl-item.type-load .tl-hora, .tl-item.type-work .tl-hora { color:var(--red); font-weight:600; }
+.tl-item.type-show .tl-hora { font-family:"Bebas Neue",sans-serif; font-size:22px; color:var(--red); }
+.tl-label { font-size:16px; color:var(--t2); }
 .tl-item.type-load .tl-label, .tl-item.type-work .tl-label { color:var(--text); font-weight:500; }
-.tl-item.type-show .tl-label { font-family:"Bebas Neue",sans-serif; font-size:16px; color:var(--red); letter-spacing:1px; }
-.tl-dur { font-size:11px; color:var(--t3); margin-left:6px; }
+.tl-item.type-show .tl-label { font-family:"Bebas Neue",sans-serif; font-size:22px; color:var(--red); letter-spacing:1px; text-transform:uppercase; }
+.tl-dur { font-size:13px; color:var(--t3); margin-left:8px; }
 
 /* hotel card */
-.hotel-card { background:var(--card); border:1px solid var(--brd); border-radius:10px; padding:14px; margin-bottom:12px; }
-.hotel-name { font-family:"Bebas Neue",sans-serif; font-size:17px; }
-.hotel-addr { font-size:12px; color:var(--t2); margin:4px 0 10px; }
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
-.grid2 .kv-label { font-size:10px; color:var(--t3); text-transform:uppercase; letter-spacing:1px; }
-.grid2 .kv-value { font-size:13px; margin-top:2px; }
-.phone-btns { display:flex; gap:8px; margin-top:10px; }
-.phone-btns a { flex:1; padding:8px; border-radius:6px; background:var(--surf); border:1px solid var(--brd); text-align:center; font-size:12px; }
+.hotel-card { background:var(--card); border:1px solid var(--brd); border-radius:12px; padding:20px; margin-bottom:16px; }
+.hotel-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.hotel-name { font-family:"Bebas Neue",sans-serif; font-size:22px; text-transform:uppercase; }
+.venue-card { background:var(--card); border:1px solid var(--brd); border-radius:12px; padding:18px 20px; }
+.venue-card .lugar { font-family:"Bebas Neue",sans-serif; font-size:19px; text-transform:uppercase; }
+.venue-card .addr { font-size:14px; color:var(--t2); margin-top:6px; line-height:1.4; }
+.hotel-addr { font-size:14px; color:var(--t2); margin:6px 0 14px; line-height:1.4; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:14px 0; }
+.grid2 .kv-label { font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:1px; }
+.grid2 .kv-value { font-size:15px; margin-top:3px; }
+.phone-btns { display:flex; gap:10px; margin-top:14px; }
+.phone-btns a {
+  flex:1; padding:12px; border-radius:8px; text-align:center; font-size:14px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.phone-btns a.tel-btn { background:var(--blueBg); border:1px solid var(--blueBrd); color:var(--blue); }
+.phone-btns a.wa-btn { background:#0d3b28; border:1px solid #1f6b47; color:#3ddc84; }
+:root[data-theme="light"] .phone-btns a.wa-btn { background:#e6f7ee; border-color:#a8e0c2; color:#1c9152; }
+.phone-btns svg { width:18px; height:18px; flex-shrink:0; }
 
 /* contactos */
-.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.contact-item .role { font-size:10px; color:var(--t3); text-transform:uppercase; letter-spacing:1px; }
-.contact-item .nombre { font-size:14px; margin:2px 0 8px; }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.contact-item .role { font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:1px; }
+.contact-item .nombre { font-size:17px; margin:3px 0 10px; }
 
 /* tour party */
-.kv-list .kv-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--brd); font-size:13px; }
+.kv-list .kv-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--brd); font-size:16px; }
 .kv-list .kv-row:last-child { border-bottom:none; }
 .kv-list .kv-row .k { color:var(--t2); }
 
@@ -204,14 +232,18 @@ input, select { font-family:inherit; }
     <button class="icon-btn" id="backBtn" style="display:none" data-action="back">
       <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
-    <h1 class="bebas">HOJA DE RUTA</h1>
+    <div class="titles">
+      <h1 class="bebas">HOJA DE <span class="hl">RUTA</span></h1>
+      <div class="subtitle" id="topbarSubtitle"></div>
+    </div>
   </div>
   <div class="right" style="display:flex; gap:8px;">
     <button class="icon-btn" id="importBtn" style="display:none" data-action="go" data-target="#/bolos/import">
       <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
     </button>
-    <button class="icon-btn" id="themeBtn" data-action="toggle-theme">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    <button class="theme-toggle" id="themeBtn" data-action="toggle-theme">
+      <svg id="themeIcon" viewBox="0 0 24 24"></svg>
+      <span id="themeLabel"></span>
     </button>
   </div>
 </div>
@@ -257,13 +289,15 @@ function esc(s) {
 function mapsUrl(query) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
+const PHONE_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>';
+const WHATSAPP_ICON_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm5.43 12.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/></svg>';
 function phoneBtns(raw) {
   if (!raw) return '';
   const digits = raw.replace(/[^\d+]/g, '');
   const wa = digits.replace(/[^\d]/g, '');
   return `<div class="phone-btns">
-    <a href="tel:${esc(digits)}">📞 ${esc(raw)}</a>
-    <a href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">WA</a>
+    <a class="tel-btn" href="tel:${esc(digits)}">${PHONE_ICON_SVG}${esc(raw)}</a>
+    <a class="wa-btn" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">${WHATSAPP_ICON_SVG}WhatsApp</a>
   </div>`;
 }
 function icon(path) { return `<svg viewBox="0 0 24 24">${path}</svg>`; }
@@ -274,6 +308,7 @@ const ICONS = {
   vehicle: '<path d="M3 13l2-6h14l2 6M5 13h14v5H5zM7 18v2M17 18v2"/>',
   party: '<path d="M12 2l2.5 6H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/>',
   cloud: '<path d="M17.5 19a4.5 4.5 0 000-9 6 6 0 00-11.4-1.5A4 4 0 006 17h11.5z"/>',
+  pin: '<path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
 };
 function sectionHead(iconKey, title) {
   return `<div class="section-head">${icon(ICONS[iconKey])}<span>${esc(title)}</span><div class="line"></div></div>`;
@@ -287,6 +322,27 @@ function fmtTime(totalMinutes) {
 function timeToMinutes(hhmm) {
   const [h, m] = hhmm.split(':').map(Number);
   return h * 60 + m;
+}
+const WEEKDAYS_ES = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+const MONTHS_ES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+function parseBoloDate(str) {
+  if (!str) return null;
+  const iso = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  const dmy = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+  let d;
+  if (iso) {
+    d = new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
+  } else if (dmy) {
+    let year = Number(dmy[3]);
+    if (year < 100) year += 2000;
+    d = new Date(year, Number(dmy[2]) - 1, Number(dmy[1]));
+  }
+  return d && !isNaN(d) ? d : null;
+}
+function formatBoloDate(str) {
+  const d = parseBoloDate(str);
+  if (!d) return str || '';
+  return `${WEEKDAYS_ES[d.getDay()]} ${d.getDate()} ${MONTHS_ES[d.getMonth()]} ${d.getFullYear()}`;
 }
 function haversine(a, b) {
   const R = 6371;
@@ -340,6 +396,16 @@ function render() {
     b.classList.toggle('active', b.dataset.target === hash);
   });
 
+  const subtitleEl = document.getElementById('topbarSubtitle');
+  const detailMatch = hash.match(/^#\/bolos\/([^/]+)$/);
+  const bolo = detailMatch && detailMatch[1] !== 'import' ? store.bolos.get().find((b) => b.id === detailMatch[1]) : null;
+  if (bolo) {
+    subtitleEl.textContent = [bolo.band, formatBoloDate(bolo.date)].filter(Boolean).join(' · ');
+    subtitleEl.classList.add('visible');
+  } else {
+    subtitleEl.classList.remove('visible');
+  }
+
   if (!found) { app.innerHTML = viewHome(); bindHome(); return; }
   app.innerHTML = found.handler.render(found.params);
   if (found.handler.bind) found.handler.bind(found.params);
@@ -378,7 +444,7 @@ function viewBoloList() {
     <div class="bolo-row" data-action="go" data-target="#/bolos/${esc(b.id)}">
       <div class="venue bebas">${esc(b.venue || 'Sin nombre')}</div>
       <div class="right">
-        <div class="citydate">${esc(b.date || '')}</div>
+        <div class="citydate">${esc(formatBoloDate(b.date))}</div>
         <div class="duration bebas">${esc(b.duration || '')}</div>
       </div>
     </div>
@@ -451,15 +517,16 @@ function viewBoloDetail({ id }) {
         <div class="hero-venue bebas">${esc(bolo.venue)}</div>
         <div class="hero-right">
           <div class="hero-duration bebas">${esc(bolo.duration)}</div>
-          <div class="hero-date">${esc(bolo.date)}</div>
+          <div class="hero-date">${esc(formatBoloDate(bolo.date))}</div>
           ${bolo.weather ? `<div class="hero-weather">☁ ${esc(bolo.weather)}</div>` : ''}
         </div>
       </div>
       <div class="hero-btns">
-        ${bolo.venueAddr ? `<a class="hero-btn-venue" href="${mapsUrl(bolo.venueAddr)}" target="_blank" rel="noopener">Venue Maps</a>` : ''}
-        ${bolo.riderUrl ? `<a class="btn-neutral" href="${esc(bolo.riderUrl)}" target="_blank" rel="noopener">Rider</a>` : ''}
+        ${bolo.venueMapsUrl ? `<a class="hero-btn-venue" href="${esc(bolo.venueMapsUrl)}" target="_blank" rel="noopener">📍 Venue en Maps</a>`
+          : bolo.venueAddr ? `<a class="hero-btn-venue" href="${mapsUrl(bolo.venueAddr)}" target="_blank" rel="noopener">📍 Venue en Maps</a>` : ''}
+        ${bolo.riderUrl ? `<a class="btn-neutral" href="${esc(bolo.riderUrl)}" target="_blank" rel="noopener">📄 Rider técnico</a>` : ''}
       </div>
-      ${bolo.acceso ? `<div class="hero-acceso">🚐 <span>ACCESO: ${esc(bolo.acceso)}</span></div>` : ''}
+      ${bolo.acceso ? `<div class="hero-acceso">🚐 <span><b>ACCESO:</b> ${esc(bolo.acceso)}</span></div>` : ''}
     </div>`;
 
   const agenda = (bolo.agenda && bolo.agenda.length) ? `
@@ -476,11 +543,22 @@ function viewBoloDetail({ id }) {
       </div>
     </div>` : '';
 
+  const venue = (bolo.lugar || bolo.venueAddr) ? `
+    <div class="section">
+      ${sectionHead('pin', 'VENUE')}
+      <div class="venue-card">
+        ${bolo.lugar ? `<div class="lugar">${esc(bolo.lugar)}</div>` : ''}
+        ${bolo.venueAddr ? `<div class="addr">${esc(bolo.venueAddr)}</div>` : ''}
+      </div>
+    </div>` : '';
+
   const hotelCard = (h) => `
     <div class="hotel-card">
-      <div class="hotel-name bebas">${esc(h.nombre)}</div>
+      <div class="hotel-head">
+        <div class="hotel-name bebas">${esc(h.nombre)}</div>
+        ${h.maps ? `<a class="btn-blue" href="${esc(h.maps)}" target="_blank" rel="noopener">📍 Maps</a>` : (h.addr ? `<a class="btn-blue" href="${mapsUrl(h.addr)}" target="_blank" rel="noopener">📍 Maps</a>` : '')}
+      </div>
       <div class="hotel-addr">${esc(h.addr)}</div>
-      ${h.maps ? `<a class="btn-blue" href="${esc(h.maps)}" target="_blank" rel="noopener">Ver en Maps</a>` : (h.addr ? `<a class="btn-blue" href="${mapsUrl(h.addr)}" target="_blank" rel="noopener">Ver en Maps</a>` : '')}
       <div class="grid2">
         ${h.checkin ? `<div><div class="kv-label">Check-in</div><div class="kv-value">${esc(h.checkin)}</div></div>` : ''}
         ${h.checkout ? `<div><div class="kv-label">Check-out</div><div class="kv-value">${esc(h.checkout)}</div></div>` : ''}
@@ -534,7 +612,7 @@ function viewBoloDetail({ id }) {
       </div>
     </div>` : '';
 
-  return hero + agenda + alojamiento + contactos + vehiculo + tourParty;
+  return hero + agenda + venue + alojamiento + contactos + vehiculo + tourParty;
 }
 route('#/bolos/:id', { render: viewBoloDetail });
 
@@ -713,7 +791,7 @@ function bindComer() {
       const restRes = await fetch('/api/restaurants', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lat: mealPoint.lat, lng: mealPoint.lng, radius: 3000, cuisine: cocina || undefined }),
+        body: JSON.stringify({ lat: mealPoint.lat, lng: mealPoint.lng, radius: 20000, cuisine: cocina || undefined }),
       });
       const restData = await restRes.json();
       if (!restRes.ok) throw new Error(restData.error || 'Error buscando restaurantes');
@@ -817,11 +895,23 @@ function toggleFavorite(id) {
   render();
 }
 
+const THEME_ICONS = {
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8.5 8.5 0 019.5 4 8.5 8.5 0 1020 14.5z"/>',
+};
+function updateThemeToggle() {
+  const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+  // el botón muestra el modo AL QUE CAMBIARÁS al pulsarlo, no el actual
+  const showsLight = current === 'dark';
+  document.getElementById('themeIcon').innerHTML = showsLight ? THEME_ICONS.sun : THEME_ICONS.moon;
+  document.getElementById('themeLabel').textContent = showsLight ? 'Claro' : 'Oscuro';
+}
 function toggleTheme() {
   const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
   store.theme.set(next);
+  updateThemeToggle();
 }
 
 // =========================================================================
@@ -829,35 +919,54 @@ function toggleTheme() {
 // =========================================================================
 const DEMO_BOLO = {
   id: 'demo-valdeorras',
-  band: 'Nunatak', format: 'Sala', venue: 'Auditorio Conde Fenosa',
-  venueAddr: 'Rúa Antonio Faílde, 32300 O Barco de Valdeorras, Ourense',
-  date: '2026-09-12', duration: '50 min', weather: 'Nuboso 18°C',
-  acceso: 'Carga por puerta trasera del auditorio, acceso directo desde el aparcamiento',
+  band: 'NUNATAK', format: 'Banda completa',
+  venue: 'O Barco de Valdeorras', lugar: 'Instalaciones Pizarras Tres Cuñados',
+  venueAddr: 'Calle Landoiros, s/n, 32337 Casaio, Province of Ourense',
+  venueMapsUrl: 'https://maps.app.goo.gl/QTLfDL458fcCsWNz7?g_st=com.google.maps.preview.copy',
+  date: '14/6/2025', duration: '90 min', weather: 'Nublado · 14-24º',
+  acceso: 'Nos dirán donde dejar la furgo al llegar.',
+  riderUrl: 'https://drive.google.com/file/d/1lo9GJ6BMFd1G7ITC_-U8IiQ0YdKIm3_Z/view?usp=sharing',
   agenda: [
-    { hora: '17:00', label: 'Llegada al auditorio', type: 'travel', dur: '' },
-    { hora: '17:30', label: 'Descarga de material', type: 'load', dur: '30 min' },
-    { hora: '19:00', label: 'Prueba de sonido', type: 'work', dur: '60 min' },
-    { hora: '21:00', label: 'Cena del equipo', type: 'rest', dur: '45 min' },
-    { hora: '22:30', label: 'Concierto', type: 'show', dur: '50 min' },
-    { hora: '00:00', label: 'Fin de jornada', type: 'end', dur: '' },
+    { hora: '16:30', label: 'Recogida vehículo', type: 'travel', dur: '' },
+    { hora: '16:30', label: 'Recogida Local', type: 'travel', dur: '' },
+    { hora: '16:45', label: 'Salida', type: 'travel', dur: '' },
+    { hora: '15:00', label: 'CItación y descarga', type: 'work', dur: '30 min' },
+    { hora: '15:30', label: 'Montaje', type: 'work', dur: '60 min' },
+    { hora: '16:00', label: 'Soundcheck', type: 'work', dur: '60 min' },
+    { hora: '00:30', label: 'Concierto', type: 'show', dur: '90 min' },
   ],
-  hotels: [{
-    nombre: 'Hotel Puerta de Valdeorras', addr: 'Av. de Galicia 20, 32300 O Barco de Valdeorras',
-    phone: '+34988320145', checkin: '15:00', checkout: '12:00',
-    rooms: '6 dobles', breakfast: 'Incluido 07:30-10:30', parking: 'Gratuito',
-    maps: 'https://maps.google.com/?q=Hotel+Puerta+de+Valdeorras',
-  }],
+  hotels: [
+    {
+      nombre: 'Ansares Hotel', addr: 'Avenida Adolfo Suárez, 32, 16400 Tarancón, España',
+      maps: 'https://maps.app.goo.gl/hJtPBt8uYzu6gUuX6', phone: '969 182 993 / 606 76 10 04',
+      rooms: '2 dobles y 1 individual', breakfast: 'SIN DESAYUNO', parking: 'Si. Interior',
+      checkin: '13 de junio de 2025', checkout: '14 de junio de 2025',
+    },
+    {
+      nombre: 'Hotel Malecón', addr: 'Rúa Pescadores, 3, 32300 O Barco, Ourense',
+      maps: 'https://maps.app.goo.gl/Hhx7rmAhUoYeLGn59', phone: '',
+      rooms: '3 dobles y una individual', breakfast: 'DESAYUNO INCLUIDO', parking: 'NO. En la calle del hotel.',
+      checkin: '14 de junio de 2025', checkout: '15 de junio de 2025',
+    },
+  ],
   contactos: [
-    { role: 'Promotor', nombre: 'Xoán Rodríguez', telefono: '+34600111222' },
-    { role: 'Técnico de sala', nombre: 'Lucía Vázquez', telefono: '+34600222333' },
+    { role: 'Oficina Nunatak', nombre: 'Tonny', telefono: '622 127 799' },
+    { role: 'Responsable producción', nombre: 'Cristina', telefono: '687 35 23 12' },
+    { role: 'Responsable producción', nombre: 'Jorge', telefono: '664 33 50 55' },
+    { role: 'Responsable técnico', nombre: 'Jorge (Sonora)', telefono: '653 42 35 52' },
+    { role: 'Producción Nunatak', nombre: 'Alex', telefono: '696 964 641' },
+    { role: 'Técnico Sonido Nuntak', nombre: 'Antonio', telefono: '645 430 765' },
   ],
   vehiculo: {
-    tipo: 'Furgoneta 9 plazas', empresa: 'GalRent', telefono: '+34600333444',
-    pickup: '12/09 10:00 - Aeropuerto Vigo', devolucion: '14/09 12:00 - Aeropuerto Vigo',
+    tipo: 'Fragoneta Meloner', empresa: 'Antonio Vera', telefono: '607 438 828',
+    pickup: '13/6 16:30', devolucion: '15/6 20:00',
   },
   tourParty: [
-    { key: 'Tour Manager', value: 'Marc Vidal' },
-    { key: 'FOH', value: 'Laia Soler' },
+    { key: 'Músicos', value: '5' },
+    { key: 'Técnico Sonido', value: 'Mini' },
+    { key: 'Road Manager/Backliner', value: 'Nop' },
+    { key: 'Invitados/Extra', value: 'Ana periquer' },
+    { key: 'Nº personas total', value: '5 hasta madrid. 7 en galicia' },
   ],
 };
 if (!store.bolos.get().length) {
@@ -868,6 +977,7 @@ if (!store.bolos.get().length) {
 // INIT
 // =========================================================================
 document.documentElement.dataset.theme = store.theme.get();
+updateThemeToggle();
 window.addEventListener('hashchange', render);
 render();
 
