@@ -562,7 +562,7 @@ function viewComer() {
       </div>
       <div class="field">
         <label>Hora de comida</label>
-        <input type="time" id="horaComidaInput" value="14:00" required>
+        <input type="time" id="horaComidaInput" value="13:00" required>
       </div>
     </div>
     <div class="field">
@@ -618,6 +618,14 @@ function interpolateAlongRoute(coords, fraction) {
   return { lat: coords[coords.length-1][1], lng: coords[coords.length-1][0] };
 }
 
+const DETOUR_ROAD_FACTOR = 1.3; // las carreteras no son línea recta
+const DETOUR_AVG_SPEED_KMH = 40; // aproximación para vías secundarias/urbanas cerca de la ruta
+
+function estimateDetourMinutes(distanceKm) {
+  const roundTripKm = distanceKm * DETOUR_ROAD_FACTOR * 2; // ida y vuelta a la ruta
+  return Math.round((roundTripKm / DETOUR_AVG_SPEED_KMH) * 60);
+}
+
 function renderRestaurantCard(r) {
   const favs = store.favoritos.get();
   const isFav = !!favs[r.id];
@@ -625,7 +633,7 @@ function renderRestaurantCard(r) {
     <div class="restaurant-card">
       <div class="restaurant-info">
         <div class="name">${esc(r.name)}</div>
-        <div class="meta">${esc(r.eta)} · ${r.detourKm.toFixed(1)} km desvío · ${esc(r.price)} · ★ ${esc(r.rating)}</div>
+        <div class="meta">Llegas ~${esc(r.eta)} · +${r.detourMin} min de desvío · ${esc(r.price)} · ★ ${esc(r.rating)}</div>
       </div>
       <div class="restaurant-actions">
         <a class="icon-btn" href="${mapsUrl(r.name + ' ' + (r.addr||''))}" target="_blank" rel="noopener">
@@ -685,34 +693,43 @@ function bindComer() {
 
       const salidaMin = timeToMinutes(horaSalida);
       const comidaMin = timeToMinutes(horaComida);
-      const elapsedAtMeal = Math.max(0, comidaMin - salidaMin);
-      const fraction = totalDurationMin > 0 ? elapsedAtMeal / totalDurationMin : 0.5;
+      const elapsedAtMeal = comidaMin - salidaMin;
+
+      if (elapsedAtMeal <= 0) {
+        throw new Error('La hora de comida debe ser posterior a la hora de salida.');
+      }
+      if (elapsedAtMeal >= totalDurationMin) {
+        const arrivalStr = fmtTime(salidaMin + totalDurationMin);
+        throw new Error(`A esa hora ya habrías llegado a destino (llegada estimada ${arrivalStr}). Prueba con una hora de comida anterior.`);
+      }
+
+      const fraction = elapsedAtMeal / totalDurationMin;
       const mealPoint = interpolateAlongRoute(coords, fraction) || dest;
 
       const restRes = await fetch('/api/restaurants', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lat: mealPoint.lat, lng: mealPoint.lng, radius: 1500, cuisine: cocina || undefined }),
+        body: JSON.stringify({ lat: mealPoint.lat, lng: mealPoint.lng, radius: 3000, cuisine: cocina || undefined }),
       });
       const restData = await restRes.json();
       if (!restRes.ok) throw new Error(restData.error || 'Error buscando restaurantes');
 
-      const arrivalMin = salidaMin + fraction * totalDurationMin;
       const results = (restData.elements || []).map((el, i) => {
         const lat = el.lat ?? el.center?.lat;
         const lng = el.lon ?? el.center?.lon;
         const tags = el.tags || {};
+        const distanceKm = haversine(mealPoint, { lat, lng });
         return {
           id: `${el.type}${el.id}`,
           name: tags.name || 'Restaurante sin nombre',
           addr: [tags['addr:street'], tags['addr:housenumber']].filter(Boolean).join(' '),
           lat, lng,
-          eta: fmtTime(arrivalMin),
-          detourKm: haversine(mealPoint, { lat, lng }),
+          eta: fmtTime(comidaMin),
+          detourMin: estimateDetourMinutes(distanceKm),
           price: tags.price_range || '—',
           rating: tags.rating || '—',
         };
-      }).sort((a, b) => a.detourKm - b.detourKm);
+      }).sort((a, b) => a.detourMin - b.detourMin);
 
       comerState.results = results;
 

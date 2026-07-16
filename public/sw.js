@@ -1,11 +1,10 @@
-const CACHE_NAME = 'hdr-v1';
+const CACHE_NAME = 'hdr-v2';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
 ];
+const NAV_PATHS = ['/', '/index.html'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -27,8 +26,9 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  if (url.pathname.startsWith('/api/')) {
-    // network-first
+  const isNav = request.mode === 'navigate' || NAV_PATHS.includes(url.pathname);
+  if (url.pathname.startsWith('/api/') || isNav) {
+    // network-first (siempre intenta traer la versión más reciente del HTML/API)
     event.respondWith(
       fetch(request)
         .then((res) => {
